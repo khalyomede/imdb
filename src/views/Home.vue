@@ -13,7 +13,7 @@
 				br
 		div(v-if="loading")
 			base-row
-				base-column(:tablet="6" :laptop="4" :desktop="3")
+				base-column(:tablet="6" :laptop="4" :desktop="3" v-for="id in 4" :key="id")
 					base-result-card-loading
 		div(v-else)
 			base-row(v-if="thereIsResultsToShow")
