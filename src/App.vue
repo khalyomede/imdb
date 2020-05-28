@@ -1,32 +1,84 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+	div#app
+		header
+			base-navbar(brand="IMDb")
+				router-link(v-for="menu in menus" :key="menu.id" :to="{ name: menu.route }" slot="menus")
+					base-navbar-menu(:active="routeIs(menu.route)") {{ $t(menu.name) }}
+		main.main
+			keep-alive
+				router-view(v-if="$route.meta.cache")
+			router-view(v-if="!$route.meta.cache")
+		footer
+			br
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+    import Vue from "vue";
+    import { BaseNavbar, BaseNavbarMenu } from "@/components";
+    import { mapGetters } from "vuex";
 
-#nav {
-  padding: 30px;
+    export default Vue.extend({
+        components: {
+            BaseNavbar,
+            BaseNavbarMenu,
+        },
+        computed: {
+            ...mapGetters(["language"]),
+        },
+        async created() {
+            this.setLanguage();
+            await this.redirect();
+        },
+        data() {
+            return {
+                show: true,
+                menus: [
+                    {
+                        id: 1,
+                        name: "Home",
+                        route: "home",
+                    },
+                    {
+                        id: 2,
+                        name: "Settings",
+                        route: "setting.index",
+                    },
+                    {
+                        id: 3,
+                        name: "Credits",
+                        route: "credit.index",
+                    },
+                ],
+            };
+        },
+        methods: {
+            routeIs(name: string): boolean {
+                return this.$route.name === name;
+            },
+            setLanguage() {
+                this.$i18n.locale = this.language;
+            },
+            async redirect() {
+                let path = localStorage.getItem("path");
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+                if (path) {
+                    localStorage.removeItem("path");
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+                    path = path.replace("imdb/", "/");
+
+                    await this.$router.push(path);
+                }
+            },
+        },
+        watch: {
+            language() {
+                this.setLanguage();
+            },
+        },
+    });
+</script>
+
+<style lang="sass">
+    .main
+    	margin-top: 58px
 </style>
