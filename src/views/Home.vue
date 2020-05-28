@@ -105,7 +105,7 @@
                 this.loading = true;
 
                 const response = await fetch(
-                    `http://www.omdbapi.com/?s=${this.search}&apikey=c7e9e5e0`
+                    `https://www.omdbapi.com/?s=${this.search}&apikey=c7e9e5e0`
                 );
                 const results: Response = await response.json();
 

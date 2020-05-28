@@ -181,7 +181,7 @@
             this.loading = true;
 
             const response = await fetch(
-                `http://www.omdbapi.com/?i=${this.id}&apikey=c7e9e5e0&plot=full`
+                `https://www.omdbapi.com/?i=${this.id}&apikey=c7e9e5e0&plot=full`
             );
             const result: Result = await response.json();
 
