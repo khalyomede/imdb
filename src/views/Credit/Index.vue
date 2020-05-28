@@ -10,6 +10,11 @@
 					a.underline.text-blue-500(href="https://thenounproject.com/mithun5/") Humble_Bee
 					|  {{ $t("from the") }} 
 					a.underline.text-blue-500(href="https://thenounproject.com/") Noun Project.
+				p
+					| {{ $t("Page not found icon by")}}
+					a.underline.text-blue-500(href="https://thenounproject.com/Tgobberdiel/")
+					|  {{ $t("from the") }} 
+					a.underline.text-blue-500(href="https://thenounproject.com/") Noun Project.
 </template>
 
 <script lang="ts">
